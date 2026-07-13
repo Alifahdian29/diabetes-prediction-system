@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riwayat Prediksi - Sistem Rekomendasi Diabetes</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="eyebrow">Database SQLite</div>
+      <h1>Riwayat Prediksi</h1>
+      <p class="lede">
+        Daftar seluruh prediksi yang pernah dilakukan sistem ini, tersimpan
+        otomatis di database lokal (SQLite) setiap kali form dikirim.
+      </p>
+    </header>
+
+    <div class="card">
+      {% if records|length == 0 %}
+        <p class="summary">Belum ada riwayat prediksi. Coba lakukan prediksi
+        dulu di halaman utama.</p>
+      {% else %}
+        <div style="overflow-x:auto;">
+        <table class="history-table">
+          <thead>
+            <tr>
+              <th>Waktu</th>
+              <th>Gender</th>
+              <th>Usia</th>
+              <th>HbA1c</th>
+              <th>BMI</th>
+              <th>Hasil</th>
+              <th>Prob. N</th>
+              <th>Prob. P</th>
+              <th>Prob. Y</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for r in records %}
+            <tr>
+              <td>{{ r.waktu }}</td>
+              <td>{{ r.gender }}</td>
+              <td>{{ r.age|int }}</td>
+              <td>{{ r.hba1c }}</td>
+              <td>{{ r.bmi }}</td>
+              <td><span class="tag tag-{{ r.predicted_class }}">{{ r.predicted_class }}</span></td>
+              <td>{{ r.prob_n }}%</td>
+              <td>{{ r.prob_p }}%</td>
+              <td>{{ r.prob_y }}%</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        </div>
+
+        <form action="/history/clear" method="POST" onsubmit="return confirm('Hapus semua riwayat? Tindakan ini tidak bisa dibatalkan.');" style="margin-top: 20px;">
+          <button type="submit" class="btn" style="background:#b8412f; width:auto; padding:10px 20px;">
+            Hapus Semua Riwayat
+          </button>
+        </form>
+      {% endif %}
+    </div>
+
+    <a href="/" class="back-link">&larr; Kembali ke halaman prediksi</a>
+  </div>
+</body>
+</html>

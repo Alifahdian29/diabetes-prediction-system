@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hasil Prediksi - Sistem Rekomendasi Diabetes</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="eyebrow">Hasil Analisis</div>
+      <h1>Hasil Prediksi Anda</h1>
+    </header>
+
+    <div class="card">
+      <span class="result-badge" style="background: {{ info.color }};">
+        {{ pred_class }} &mdash; {{ info.label }}
+      </span>
+      <p class="summary">{{ info.summary }}</p>
+
+      <div class="proba-row">
+        {% for cls, pct in proba_dict.items() %}
+        <div class="proba-item">
+          <div class="proba-label">{{ cls }}</div>
+          <div class="proba-track">
+            <div class="proba-fill" style="width: {{ pct }}%; background: {{ info.color if cls == pred_class else '#b7c9c2' }};"></div>
+          </div>
+          <div class="proba-pct">{{ pct }}%</div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title"><span class="num">2</span>Rekomendasi Personal</div>
+      <ul class="rec-list">
+        {% for rec in recommendations %}
+        <li>{{ rec }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="section-title"><span class="num">3</span>Ringkasan Data Input</div>
+      <div class="input-recap">
+        <div><span>Gender</span>{{ gender_display }}</div>
+        <div><span>Usia</span>{{ input_data.AGE }} th</div>
+        <div><span>Urea</span>{{ input_data.Urea }}</div>
+        <div><span>Cr</span>{{ input_data.Cr }}</div>
+        <div><span>HbA1c</span>{{ input_data.HbA1c }}%</div>
+        <div><span>Chol</span>{{ input_data.Chol }}</div>
+        <div><span>TG</span>{{ input_data.TG }}</div>
+        <div><span>HDL</span>{{ input_data.HDL }}</div>
+        <div><span>LDL</span>{{ input_data.LDL }}</div>
+        <div><span>VLDL</span>{{ input_data.VLDL }}</div>
+        <div><span>BMI</span>{{ input_data.BMI }}</div>
+      </div>
+    </div>
+
+    <a href="/" class="back-link">&larr; Prediksi data pasien lain</a>
+
+    <p class="disclaimer">
+      Sistem ini merupakan proyek akademik (data mining) dan bukan alat diagnosis medis resmi.
+      Hasil prediksi tidak menggantikan pemeriksaan dan konsultasi dengan tenaga medis profesional.
+    </p>
+  </div>
+</body>
+</html>

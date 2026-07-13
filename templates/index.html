@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Cerdas Prediksi & Rekomendasi Risiko Diabetes</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="eyebrow">Random Forest &middot; Dataset Mendeley</div>
+      <h1>Prediksi &amp; Rekomendasi<br>Risiko Diabetes</h1>
+      <p class="lede">
+        Masukkan data hasil pemeriksaan laboratorium pasien. Sistem akan memprediksi
+        status (Normal / Prediabetes / Diabetes) menggunakan model Random Forest,
+        lalu memberikan rekomendasi gaya hidup yang dipersonalisasi.
+      </p>
+      <a href="/history" class="nav-link">Lihat Riwayat Prediksi &rarr;</a>
+    </header>
+
+    {% if error %}
+    <div class="error">Terjadi kesalahan input: {{ error }}</div>
+    {% endif %}
+
+    <div class="card">
+      <div class="section-title"><span class="num">1</span>Data Pasien</div>
+      <form action="/predict" method="POST">
+        <div class="grid">
+          <div class="field">
+            <label>Jenis Kelamin</label>
+            <select name="Gender" required>
+              <option value="M">Laki-laki (M)</option>
+              <option value="F">Perempuan (F)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Usia <span class="unit">(tahun)</span></label>
+            <input type="number" name="AGE" min="1" max="120" step="1" required placeholder="cth. 45">
+          </div>
+          <div class="field">
+            <label>Urea <span class="unit">(mmol/L)</span></label>
+            <input type="number" name="Urea" step="0.1" required placeholder="cth. 4.7">
+          </div>
+          <div class="field">
+            <label>Creatinine (Cr) <span class="unit">(&micro;mol/L)</span></label>
+            <input type="number" name="Cr" step="0.1" required placeholder="cth. 46">
+          </div>
+          <div class="field">
+            <label>HbA1c <span class="unit">(%)</span></label>
+            <input type="number" name="HbA1c" step="0.1" required placeholder="cth. 5.5">
+          </div>
+          <div class="field">
+            <label>Cholesterol (Chol) <span class="unit">(mmol/L)</span></label>
+            <input type="number" name="Chol" step="0.1" required placeholder="cth. 4.2">
+          </div>
+          <div class="field">
+            <label>Trigliserida (TG) <span class="unit">(mmol/L)</span></label>
+            <input type="number" name="TG" step="0.1" required placeholder="cth. 1.0">
+          </div>
+          <div class="field">
+            <label>HDL <span class="unit">(mmol/L)</span></label>
+            <input type="number" name="HDL" step="0.1" required placeholder="cth. 1.2">
+          </div>
+          <div class="field">
+            <label>LDL <span class="unit">(mmol/L)</span></label>
+            <input type="number" name="LDL" step="0.1" required placeholder="cth. 2.4">
+          </div>
+          <div class="field">
+            <label>VLDL <span class="unit">(mmol/L)</span></label>
+            <input type="number" name="VLDL" step="0.1" required placeholder="cth. 0.6">
+          </div>
+          <div class="field full">
+            <label>BMI <span class="unit">(kg/m&sup2;)</span></label>
+            <input type="number" name="BMI" step="0.1" required placeholder="cth. 24">
+          </div>
+        </div>
+        <button type="submit" class="btn">Prediksi &amp; Lihat Rekomendasi</button>
+      </form>
+    </div>
+
+    <p class="disclaimer">
+      Sistem ini merupakan proyek akademik (data mining) dan bukan alat diagnosis medis resmi.
+      Hasil prediksi tidak menggantikan pemeriksaan dan konsultasi dengan tenaga medis profesional.
+    </p>
+  </div>
+</body>
+</html>
